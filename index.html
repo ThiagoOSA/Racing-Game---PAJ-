@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Game</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <script src="/Versao_02/scripts/index.js"></script>
+    <script src="/Versao_02/scripts/point.js"></script>
+    <script src="/Versao_02/scripts/hitbox.js"></script>
+    <script src="/Versao_02/scripts/player.js"></script>
+    <script src="/Versao_02/scripts/pistas.js"></script>
+    <script src="/Versao_02/scripts/hud.js"></script>
+    <script>
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        document.body.appendChild(canvas);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var teclas=[];
+        var players=[new player("../Sprites/car.png",canvas.width/2,30,80,80,[87,83,68,65]),new player("../Sprites/Audi.png",canvas.width/2,100,80,80,[38,40,39,37])];
+        var pistas=[new pista([new point(1200,20),new point(200,20),new point(100,70),new point(80,110),new point(80,560),new point(140,610),new point(200,630),new point(455,630),new point(520,610),new point(575,560),new point(575,460),new point(590,444),new point(620,444),new point(900,620),new point(965,630),new point(1200,630),new point(1250,610),new point(1315,564),new point(1315,100),new point(1285,60)]),new pista([new point(336,198),new point(316,212),new point(316,472),new point(338,472),new point(338,350), new point(370,300),new point(410,280),new point(450,268),new point(660,265),new point(730,280),new point(1050,477),new point(1075,477),new point(1081,470),new point(1081,210),new point(1065,198)])];
+        var HUD = new hud(players);
+        var track = new Image();
+        track.src = "../Sprites/Track.png";
+
+        var FPS = 20;
+        var timer = setInterval(loop, 1000/FPS)
+        
+        function loop()
+        {   context.fillStyle = 'rgb(255,255,255)'
+            context.fillRect(0,0,canvas.width,canvas.height)
+            context.drawImage(track,0,32,249,202,0,0,canvas.width,canvas.height)
+
+            HUD.draw()
+
+            for(let i=0; i<pistas.length;i++)
+            {   pistas[i].draw()
+            }
+
+            for(let i=0; i<players.length;i++)
+            {   
+                players[i].draw()
+                players[i].keyboard(teclas)
+            }
+        }
+    </script>
+</body>
+</html>
